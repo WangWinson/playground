@@ -1,6 +1,7 @@
 'use strict';
 
 var express = require('express');
+var serveIndex = require('serve-index');
 var app = express();
 var path = require('path');
 var dataRouter = require('../controller/data.js').router;
@@ -19,7 +20,10 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use(express.static(path.resolve('../samples')));
+var publicPath = path.resolve('../samples');
+
+app.use(express.static(publicPath));
+app.use(serveIndex(publicPath, {'icon': true}));
 
 app.use('/data', dataRouter);
 
